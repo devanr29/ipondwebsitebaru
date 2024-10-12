@@ -1,0 +1,23 @@
+/* historychart.css */
+.date-filter{
+    display: inline-block;
+    margin-right: 20px;
+    margin-bottom: 10px;
+}
+@media (max-width: 1200px) {
+    .responsive-container {
+        width: 100%;
+        aspect-ratio: 1; /* Atur aspek rasio untuk layar handphone */
+    }
+
+}
+
+@media (max-width: 468px){
+    .date-filter{
+        display: block;
+        margin-right: 0;
+    }
+}
+.gauge-component-class text {
+    fill: #000000 !important;
+}
