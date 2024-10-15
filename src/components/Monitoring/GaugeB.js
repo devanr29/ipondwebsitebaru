@@ -8,7 +8,7 @@ function GaugeB() {
 
     useEffect(() => {
         // Mendengarkan perubahan pada path suhu di Firebase
-        const suhuref = ref(db, "/Data_MyIpond/Data_RealTime/SUHU_AIR")
+        const suhuref = ref(db, "/Data_Alat2/Data_RealTime/SUHU_AIR")
         const unsubscribesuhu = onValue(suhuref, (snapshot) => {
             const data = snapshot.val(); 
             setTemperature(data);

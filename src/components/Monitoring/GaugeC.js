@@ -8,7 +8,7 @@ function GaugeC() {
 
     useEffect(() => {
         // Mendengarkan perubahan pada path suhu di Firebase
-        const turbidityref = ref(db, "/Data_MyIpond/Data_RealTime/KEKERUHAN_AIR")
+        const turbidityref = ref(db, "/Data_Alat2/Data_RealTime/KEKERUHAN_AIR")
         const unsubscribetur = onValue(turbidityref, (snapshot) => {
             const data = snapshot.val(); 
             setTurbidity(data);
