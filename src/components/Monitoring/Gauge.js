@@ -8,7 +8,7 @@ function Gauge() {
     const [pHValue, setPHValue] = useState("");
 
     useEffect(() => {
-        const phref = ref(db, "/Data_MyIpond/Data_RealTime/PH_AIR");
+        const phref = ref(db, "/Data_Alat2/Data_RealTime/PH_AIR");
         const unsubscribeph = onValue(phref, (snapshot) => {
             const data = snapshot.val(); 
             setPHValue(data);
