@@ -30,8 +30,6 @@ function HistoryChart() {
           return Object.keys(fetchdata[dateKey]).map((timeKey) => ({
             date: moment(dateKey + " " + timeKey, "MM-DD-YYYY HH:mm:ss").toDate(), // Kombinasikan tanggal dan waktu
             pH: parseFloat(fetchdata[dateKey][timeKey].pH),
-            Turbidity: parseFloat(fetchdata[dateKey][timeKey].Turbidity),
-            Temperature: parseFloat(fetchdata[dateKey][timeKey].Temperature)
           }));
         })
         .flat(); // Flatten array untuk menggabungkan data

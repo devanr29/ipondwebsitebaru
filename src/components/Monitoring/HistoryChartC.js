@@ -20,15 +20,19 @@ function HistoryChart() {
   const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
-    const dataref = ref(db, "/Data_MyIpond/Data_Json");
+    const dataref = ref(db, "/Data_Alat2/Data_Historical");
     const unsubscribedata = onValue(dataref, (snapshot) => {
       const fetchdata = snapshot.val();
       const chartdata = Object.keys(fetchdata)
-      .map((key) => ({
-        date: moment(fetchdata[key].Tanggal).toDate(), // Use moment to parse the date
-        Kekeruhan: parseFloat(fetchdata[key].Turbidity),
-      }))
-      .filter((item) => {
+        .map((dateKey) => {
+          return Object.keys(fetchdata[dateKey]).map((timeKey) => ({
+            date: moment(dateKey + " " + timeKey, "MM-DD-YYYY HH:mm:ss").toDate(),
+            Turbidity: parseFloat(fetchdata[dateKey][timeKey].Turbidity),
+          }));
+        })
+        .flat(); // Flatten array untuk menggabungkan data
+
+      const filteredData = chartdata.filter((item) => {
         if (startDate && endDate) {
           return (
             item.date >= startDate.startOf("day").toDate() &&
@@ -37,7 +41,8 @@ function HistoryChart() {
         }
         return true;
       });
-      setData(chartdata);
+
+      setData(filteredData);
     });
     return () => {
       unsubscribedata();
@@ -81,7 +86,7 @@ function HistoryChart() {
           <YAxis></YAxis>
           <Legend />
           <Tooltip />
-          <Line type="monotone" dataKey="Kekeruhan" strokeWidth={1} stroke="green" />
+          <Line type="monotone" dataKey="Turbidity" strokeWidth={1} stroke="green" />
         </LineChart>
       </ResponsiveContainer>
     </>

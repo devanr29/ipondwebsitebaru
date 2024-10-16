@@ -20,18 +20,15 @@ function HistoryChart() {
   const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
-    const dataref = ref(db, "/Data_Alat2/Data_Historical"); // Update path sesuai dengan Firebase
+    const dataref = ref(db, "/Data_Alat2/Data_Historical");
     const unsubscribedata = onValue(dataref, (snapshot) => {
       const fetchdata = snapshot.val();
-      
       const chartdata = Object.keys(fetchdata)
         .map((dateKey) => {
           // Iterasi setiap waktu dalam path tanggal
           return Object.keys(fetchdata[dateKey]).map((timeKey) => ({
-            date: moment(dateKey + " " + timeKey, "MM-DD-YYYY HH:mm:ss").toDate(), // Kombinasikan tanggal dan waktu
-            pH: parseFloat(fetchdata[dateKey][timeKey].pH),
-            Turbidity: parseFloat(fetchdata[dateKey][timeKey].Turbidity),
-            Temperature: parseFloat(fetchdata[dateKey][timeKey].Temperature)
+            date: moment(dateKey + " " + timeKey, "MM-DD-YYYY HH:mm:ss").toDate(),
+            Temperature: parseFloat(fetchdata[dateKey][timeKey].Temperature),
           }));
         })
         .flat(); // Flatten array untuk menggabungkan data
@@ -52,7 +49,7 @@ function HistoryChart() {
     return () => {
       unsubscribedata();
     };
-}, [startDate, endDate]);
+  }, [startDate, endDate]);
 
   const handleDateFilter = (start, end) => {
     setStartDate(start ? moment(start).startOf('day') : null);
@@ -91,7 +88,7 @@ function HistoryChart() {
           <YAxis></YAxis>
           <Legend />
           <Tooltip />
-          <Line type="monotone" dataKey="Suhu" strokeWidth={1} stroke="blue" />
+          <Line type="monotone" dataKey="Temperature" strokeWidth={1} stroke="blue" />
         </LineChart>
       </ResponsiveContainer>
     </>
