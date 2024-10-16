@@ -20,15 +20,24 @@ function HistoryChart() {
   const [endDate, setEndDate] = useState(null);
 
   useEffect(() => {
-    const dataref = ref(db, "/Data_MyIpond/Data_Json");
+    const dataref = ref(db, "/Data_Alat2/Data_Historical"); // Update path sesuai dengan Firebase
     const unsubscribedata = onValue(dataref, (snapshot) => {
-    const fetchdata = snapshot.val();
-    const chartdata = Object.keys(fetchdata)
-      .map((key) => ({
-        date: moment(fetchdata[key].Tanggal).toDate(), // Use moment to parse the date
-        pH: parseFloat(fetchdata[key].pH),
-      }))
-      .filter((item) => {
+      const fetchdata = snapshot.val();
+      
+      const chartdata = Object.keys(fetchdata)
+        .map((dateKey) => {
+          // Iterasi setiap waktu dalam path tanggal
+          return Object.keys(fetchdata[dateKey]).map((timeKey) => ({
+            date: moment(dateKey + " " + timeKey, "MM-DD-YYYY HH:mm:ss").toDate(), // Kombinasikan tanggal dan waktu
+            pH: parseFloat(fetchdata[dateKey][timeKey].pH),
+            Turbidity: parseFloat(fetchdata[dateKey][timeKey].Turbidity),
+            Temperature: parseFloat(fetchdata[dateKey][timeKey].Temperature)
+          }));
+        })
+        .flat(); // Flatten array untuk menggabungkan data
+
+      // Filter berdasarkan tanggal
+      const filteredData = chartdata.filter((item) => {
         if (startDate && endDate) {
           return (
             item.date >= startDate.startOf("day").toDate() &&
@@ -37,13 +46,13 @@ function HistoryChart() {
         }
         return true;
       });
-    
-      setData(chartdata);
+
+      setData(filteredData);
     });
     return () => {
       unsubscribedata();
     };
-  }, [startDate, endDate]);
+}, [startDate, endDate]);
 
   const handleDateFilter = (start, end) => {
     setStartDate(start ? moment(start).startOf('day') : null);
