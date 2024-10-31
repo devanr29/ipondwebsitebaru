@@ -83,6 +83,17 @@ function NavBar() {
                 Monitoring
               </Nav.Link>
             </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/project2"
+                onClick={() => updateExpanded(false)}
+              >
+                Monitoring 2
+              </Nav.Link>
+            </Nav.Item>
+
           </Nav>
 
           <Nav.Item>

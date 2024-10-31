@@ -3,6 +3,7 @@ import Preloader from "../src/components/preloader/Preloader";
 import Navbar from "./components/navbar/Navbar";
 import Home from "./components/Home/Home";
 import Projects from "./components/Monitoring/Dashboard";
+import Projects2 from "./components/Monitoring2/Dashboard";
 import Footer from "./components/footer/Footer";
 import { ThemeContext } from "./Context/theme";
 import {
@@ -37,6 +38,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/project" element={<Projects />} />
+            <Route path="/project2" element={<Projects2 />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
           <Footer />
